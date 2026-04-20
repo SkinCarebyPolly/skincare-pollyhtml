@@ -1218,6 +1218,15 @@ async function buscarImagensSugestoes() {
   }
 }
 
+
+// ══ RENDER STEPS (global) ══
+function renderSteps(steps) {
+  if (!steps || !steps.length) return '';
+  return steps.map(function(s,i) {
+    return '<div class="step-item"><div class="step-num">'+(i+1)+'</div><div class="step-content"><div class="step-product">'+(s.produto||s.nome||'')+'</div><div class="step-how">'+(s.como||s.instrucao||'')+'</div>'+(s.tempo?'<span class="step-time">⏱ '+s.tempo+'</span>':'')+(s.alerta?'<div style="margin-top:6px;font-size:12px;color:#e07a7a">⚠️ '+s.alerta+'</div>':'')+(s.dica?'<div style="margin-top:6px;font-size:12px;color:#c9a96e">💡 '+s.dica+'</div>':'')+'</div></div>';
+  }).join('');
+}
+
 // ══ RENDER ESPINHA ══
 function renderEspinha(p) {
   const root = document.getElementById('content-espinha-root');
@@ -1332,19 +1341,7 @@ function renderMake(p) {
   if (!root) return;
   const e = p.dicas_maquiagem_detalhado || {};
 
-  function renderSteps(steps) {
-    if (!steps || !steps.length) return '';
-    return steps.map((s,i) => `
-      <div class="step-item">
-        <div class="step-num">${i+1}</div>
-        <div class="step-content">
-          <div class="step-product">${s.produto||s.nome||''}</div>
-          <div class="step-how">${s.como||s.instrucao||''}</div>
-          ${s.tempo ? `<span class="step-time">⏱ ${s.tempo}</span>` : ''}
-          ${s.dica ? `<div style="margin-top:6px;font-size:12px;color:var(--gold)">💡 ${s.dica}</div>` : ''}
-        </div>
-      </div>`).join('');
-  }
+
 
   let html = '';
 
