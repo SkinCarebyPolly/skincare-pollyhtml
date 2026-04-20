@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skincare by Polly - Teste</title>
+<style>
+body { background: #0e0c0b; color: #f5f0e8; font-family: sans-serif; padding: 40px 20px; }
+.chk { display:flex; gap:14px; padding:16px; border:1px solid rgba(201,169,110,.2); border-radius:10px; cursor:pointer; margin-bottom:12px; }
+.chk input { width:24px; height:24px; accent-color:#c9a96e; }
+.btn { width:100%; background:linear-gradient(135deg,#c9a96e,#e8cfa0); border:none; border-radius:8px; padding:16px; font-size:14px; font-weight:600; color:#0e0c0b; cursor:pointer; margin-top:8px; opacity:0.4; }
+</style>
+</head>
+<body>
+<h2>Teste LGPD</h2>
+<label class="chk"><input type="checkbox" id="c1" onchange="chk()"> Item 1</label>
+<label class="chk"><input type="checkbox" id="c2" onchange="chk()"> Item 2</label>
+<label class="chk"><input type="checkbox" id="c3" onchange="chk()"> Item 3</label>
+<button class="btn" id="btn" onclick="avancar()">Continuar</button>
+<script>
+function chk() {
+  var ok = document.getElementById('c1').checked && document.getElementById('c2').checked && document.getElementById('c3').checked;
+  document.getElementById('btn').style.opacity = ok ? '1' : '0.4';
+}
+function avancar() {
+  var ok = document.getElementById('c1').checked && document.getElementById('c2').checked && document.getElementById('c3').checked;
+  if (!ok) { alert('Marque os 3'); return; }
+  alert('FUNCIONOU! Navegacao OK');
+}
+</script>
+</body>
+</html>

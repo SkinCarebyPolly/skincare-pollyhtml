@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Skincare by Polly">
+<meta name="theme-color" content="#0e0c0b">
+<title>Skincare by Polly</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Jost',sans-serif; background:#0e0c0b; min-height:100vh; min-height:100dvh; }
+#login-screen { min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 32px; background:linear-gradient(160deg,#0a0806,#1a0e09 55%,#261408); position:relative; overflow:hidden; }
+#login-screen::before { content:''; position:absolute; top:-80px; right:-80px; width:300px; height:300px; border-radius:50%; background:radial-gradient(circle,rgba(201,169,110,0.08),transparent 70%); }
+.login-logo { width:90px; height:90px; border-radius:22px; margin-bottom:28px; box-shadow:0 8px 40px rgba(201,169,110,0.2); }
+.login-brand { font-size:10px; letter-spacing:5px; text-transform:uppercase; color:#c9a96e; margin-bottom:10px; }
+.login-title { font-family:'Playfair Display',serif; font-size:32px; font-weight:400; color:#f5f0e8; text-align:center; line-height:1.2; margin-bottom:6px; }
+.login-title em { font-style:italic; color:#e8cfa0; }
+.login-sub { font-size:11px; color:#7a6e68; letter-spacing:2px; margin-bottom:48px; }
+.login-form { width:100%; max-width:320px; }
+.input-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#7a6e68; margin-bottom:8px; display:block; }
+.input-field { width:100%; background:rgba(255,255,255,0.05); border:1px solid #2e2521; border-radius:12px; padding:14px 18px; font-family:'Jost',sans-serif; font-size:15px; color:#f5f0e8; outline:none; transition:border-color 0.2s; margin-bottom:14px; -webkit-appearance:none; }
+.input-field:focus { border-color:#c9a96e; }
+.input-field::placeholder { color:#4a3e38; }
+.login-btn { width:100%; background:linear-gradient(135deg,#c9a96e,#e8cfa0); border:none; border-radius:12px; padding:16px; font-family:'Jost',sans-serif; font-size:13px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:#0e0c0b; cursor:pointer; }
+.login-error { text-align:center; font-size:12px; color:#c4857a; margin-top:14px; opacity:0; transition:opacity 0.3s; letter-spacing:1px; }
+.login-error.show { opacity:1; }
+#app-screen { display:none; }
+#app-screen.visible { display:block; }
+#app-frame { border:none; width:100%; height:100vh; height:100dvh; }
+</style>
+</head>
+<body>
+<div id="login-screen">
+  <img src="icons/icon-180.png" class="login-logo" alt="Skincare by Polly">
+  <div class="login-brand">@skincarebypolly</div>
+  <h1 class="login-title">Sua Rotina<br><em>Personalizada</em></h1>
+  <p class="login-sub">ACESSO EXCLUSIVO</p>
+  <div class="login-form">
+    <label class="input-label">Seu nome</label>
+    <input type="text" id="username" class="input-field" placeholder="Digite seu nome" autocomplete="off">
+    <label class="input-label">Senha</label>
+    <input type="password" id="password" class="input-field" placeholder="••••••••">
+    <button class="login-btn" onclick="doLogin()">Entrar</button>
+    <div class="login-error" id="login-error">Senha incorreta. Tente novamente.</div>
+  </div>
+</div>
+<div id="app-screen">
+  <iframe id="app-frame" src="app.html" title="Skincare"></iframe>
+</div>
+<script>
+// ── ALTERE AQUI PARA CADA CLIENTE ──
+const USUARIOS = [
+  { nome: 'NOME_CLIENTE', usuario: 'USUARIO', senha: 'SENHA_AQUI' },
+  { nome: 'Pollianna',    usuario: 'polly',   senha: 'admin2025'  },
+];
+// ───────────────────────────────────
+
+if (sessionStorage.getItem('sbp_auth')) showApp();
+
+function doLogin() {
+  const user  = document.getElementById('username').value.trim().toLowerCase();
+  const pass  = document.getElementById('password').value.trim();
+  const err   = document.getElementById('login-error');
+  const match = USUARIOS.find(u => u.usuario.toLowerCase() === user && u.senha === pass);
+  if (match) {
+    sessionStorage.setItem('sbp_auth', match.nome);
+    document.getElementById('login-screen').style.transition = 'opacity 0.4s';
+    document.getElementById('login-screen').style.opacity = '0';
+    setTimeout(showApp, 400);
+  } else {
+    err.classList.add('show');
+    document.getElementById('password').value = '';
+  }
+}
+function showApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app-screen').classList.add('visible');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body>
+</html>
