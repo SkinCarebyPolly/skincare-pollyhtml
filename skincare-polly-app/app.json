@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "Skincare by Polly",
+    "slug": "skincare-polly-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0e0c0b"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.skincarebypolly.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0e0c0b"
+      },
+      "package": "com.skincarebypolly.app"
+    },
+    "plugins": [
+      "expo-secure-store",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "O app precisa da câmera para analisar sua pele."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "O app precisa da galeria para selecionar fotos dos seus produtos."
+        }
+      ],
+      "expo-asset"
+    ]
+  }
+}
